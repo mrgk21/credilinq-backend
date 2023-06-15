@@ -9,8 +9,8 @@
 	"editor.indentSize": "tabSize",
 	"explorer.sortOrder": "type",
 	"editor.codeActionsOnSave": {
-		"source.fixAll": true,
-		"source.organizeImports": true
+		// "source.fixAll": true,
+		// "source.organizeImports": true
 	},
 	"explorer.fileNesting.enabled": false
 }

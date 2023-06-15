@@ -1,0 +1,46 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type _Company {
+  uen: String!
+  name: String!
+}
+
+type _Applicant {
+  name: String!
+  companyPosition: String!
+  email: String!
+  mobile: String!
+}
+
+type VendorDto {
+  company: _Company!
+  applicant: _Applicant!
+}
+
+type Query {
+  getVendor(email: String!): VendorDto!
+  generatePDFs(email: String!): Boolean!
+}
+
+type Mutation {
+  createVendor(vendor: VendorInput!): VendorDto!
+}
+
+input VendorInput {
+  company: Company!
+  applicant: Applicant!
+}
+
+input Company {
+  uen: String!
+  name: String!
+}
+
+input Applicant {
+  name: String!
+  companyPosition: String!
+  email: String!
+  mobile: String!
+}

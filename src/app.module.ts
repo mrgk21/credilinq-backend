@@ -1,8 +1,25 @@
-import { Module } from "@nestjs/common";
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from "@nestjs/common";
+import { GraphQLModule } from "@nestjs/graphql";
+import { MongooseModule } from "@nestjs/mongoose";
+import { VendorModule } from "./vendor/vendor.module";
+import { LoggerMiddleware } from "./_common/middleware/logger.middleware";
 
 @Module({
-	imports: [],
+	imports: [
+		MongooseModule.forRoot("mongodb://localhost:27017/credilinq"),
+		GraphQLModule.forRoot<ApolloDriverConfig>({
+			driver: ApolloDriver,
+			autoSchemaFile: "schema.gql",
+			playground: true,
+		}),
+		VendorModule,
+	],
 	controllers: [],
 	providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+	configure(consumer: MiddlewareConsumer) {
+		consumer.apply(LoggerMiddleware).forRoutes({ path: "*", method: RequestMethod.ALL });
+	}
+}
