@@ -32,7 +32,7 @@ export const VendorSchema = new Schema<IVendor>(
 			name: { type: String },
 			companyPosition: { type: String },
 			email: { type: String, unique: true },
-			mobile: { type: String, unique: true },
+			mobile: { type: String },
 		},
 		documents: [
 			{
