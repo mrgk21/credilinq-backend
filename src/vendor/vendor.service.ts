@@ -54,11 +54,3 @@ export class VendorService {
 		return true;
 	}
 }
-
-// try {
-// 	await fs.writeFile("./cat.pdf", doc[0].buffer, {});
-// 	await fs.writeFile("./hello.json", hello[0].buffer, {});
-// 	console.log("done!");
-// } catch (error) {
-// 	console.log(error);
-// }
