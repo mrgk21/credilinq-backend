@@ -11,21 +11,21 @@ export class VendorController {
 	@Post("upload")
 	@UseInterceptors(
 		FileFieldsInterceptor([
-			{ name: "doc-1", maxCount: 1 },
-			{ name: "doc-2", maxCount: 1 },
-			{ name: "doc-3", maxCount: 1 },
-			{ name: "doc-4", maxCount: 1 },
-			{ name: "doc-5", maxCount: 1 },
-			{ name: "doc-6", maxCount: 1 },
+			{ name: "doc-1" },
+			{ name: "doc-2" },
+			{ name: "doc-3" },
+			{ name: "doc-4" },
+			{ name: "doc-5" },
+			{ name: "doc-6" },
 		]),
 	)
 	uploadFile(
 		@UploadedFiles()
 		files: { docs: Express.Multer.File[] },
-		@Body("id") id: number,
+		@Body("email") email: string,
 	) {
-		console.log(files, id);
+		console.log(files, email);
 
-		// return this.vendorService.uploadFiles(id, files);
+		return this.vendorService.uploadFiles(email, files);
 	}
 }

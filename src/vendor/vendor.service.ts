@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Express } from "express";
@@ -21,17 +21,26 @@ export class VendorService {
 		email: string,
 		files: { [k: string]: Express.Multer.File[] },
 	): Promise<boolean> {
+		Object.keys(files).forEach((name) => {
+			if (files[name][0].mimetype !== "application/pdf")
+				throw new BadRequestException("Wrong file type detected");
+		});
+
 		const filePromises = Object.keys(files).map(async (name) =>
 			this.vendorModel.updateOne(
 				{ "applicant.email": email },
-				{ $push: { documents: { name, content: files[name][0].buffer } } },
+				{
+					$push: {
+						documents: {
+							name: files[name][0].originalname,
+							content: files[name][0].buffer,
+						},
+					},
+				},
 			),
 		);
 		await Promise.all(filePromises);
-		await this.vendorModel.updateOne(
-			{ "applicant.email": email },
-			{ $push: { status: "complete" } },
-		);
+		await this.vendorModel.updateOne({ "applicant.email": email }, { status: "complete" });
 		return true;
 	}
 
