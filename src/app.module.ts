@@ -1,5 +1,6 @@
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { GraphQLModule } from "@nestjs/graphql";
 import { MongooseModule } from "@nestjs/mongoose";
 import { VendorModule } from "./vendor/vendor.module";
@@ -7,7 +8,8 @@ import { LoggerMiddleware } from "./_common/middleware/logger.middleware";
 
 @Module({
 	imports: [
-		MongooseModule.forRoot("mongodb://localhost:27017/credilinq"),
+		ConfigModule.forRoot({ isGlobal: true }),
+		MongooseModule.forRoot(process.env.MONGO_URL),
 		GraphQLModule.forRoot<ApolloDriverConfig>({
 			driver: ApolloDriver,
 			autoSchemaFile: "schema.gql",
